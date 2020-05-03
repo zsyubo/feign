@@ -378,17 +378,6 @@ public class RequestTemplateTest {
         .hasUrl("/api/%2F");
   }
 
-  /**
-   * Implementations have a bug if they pass junk as the http method.
-   */
-  @SuppressWarnings("deprecation")
-  @Test
-  public void uriStuffedIntoMethod() {
-    thrown.expect(IllegalArgumentException.class);
-    thrown.expectMessage("Invalid HTTP Method: /path?queryParam={queryParam}");
-    new RequestTemplate().method("/path?queryParam={queryParam}");
-  }
-
   @Test
   public void encodedQueryClearedOnNull() {
     RequestTemplate template = new RequestTemplate();

@@ -76,7 +76,8 @@ public class SAXDecoderTest {
     return Response.builder()
         .status(200)
         .reason("OK")
-        .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8))
+        .request(
+            Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8, null))
         .headers(Collections.<String, Collection<String>>emptyMap())
         .body(statusFailed, UTF_8)
         .build();
@@ -87,7 +88,8 @@ public class SAXDecoderTest {
     Response response = Response.builder()
         .status(204)
         .reason("OK")
-        .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8))
+        .request(
+            Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8, null))
         .headers(Collections.<String, Collection<String>>emptyMap())
         .build();
     assertNull(decoder.decode(response, String.class));
@@ -99,7 +101,8 @@ public class SAXDecoderTest {
     Response response = Response.builder()
         .status(404)
         .reason("NOT FOUND")
-        .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8))
+        .request(
+            Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8, null))
         .headers(Collections.<String, Collection<String>>emptyMap())
         .build();
     assertThat((byte[]) decoder.decode(response, byte[].class)).isNull();

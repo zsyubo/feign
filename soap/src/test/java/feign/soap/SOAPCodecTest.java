@@ -223,7 +223,8 @@ public class SOAPCodecTest {
     Response response = Response.builder()
         .status(200)
         .reason("OK")
-        .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8))
+        .request(
+            Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8, null))
         .headers(Collections.emptyMap())
         .body(mockSoapEnvelop, UTF_8)
         .build();
@@ -254,7 +255,8 @@ public class SOAPCodecTest {
     Response response = Response.builder()
         .status(200)
         .reason("OK")
-        .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8))
+        .request(
+            Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8, null))
         .headers(Collections.emptyMap())
         .body(mockSoapEnvelop, UTF_8)
         .build();
@@ -286,7 +288,8 @@ public class SOAPCodecTest {
     Response response = Response.builder()
         .status(200)
         .reason("OK")
-        .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8))
+        .request(
+            Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8, null))
         .headers(Collections.emptyMap())
         .body(mockSoapEnvelop, UTF_8)
         .build();
@@ -315,7 +318,8 @@ public class SOAPCodecTest {
     Response response = Response.builder()
         .status(200)
         .reason("OK")
-        .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8))
+        .request(
+            Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8, null))
         .headers(Collections.emptyMap())
         .body("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>"
             + "<Envelope xmlns=\"http://schemas.xmlsoap.org/soap/envelope/\">"
@@ -360,7 +364,8 @@ public class SOAPCodecTest {
     Response response = Response.builder()
         .status(200)
         .reason("OK")
-        .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8))
+        .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8,
+            template))
         .headers(Collections.emptyMap())
         .body(template.body())
         .build();
@@ -377,7 +382,8 @@ public class SOAPCodecTest {
     Response response = Response.builder()
         .status(404)
         .reason("NOT FOUND")
-        .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8))
+        .request(
+            Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8, null))
         .headers(Collections.emptyMap())
         .build();
     assertThat((byte[]) new JAXBDecoder(new JAXBContextFactory.Builder().build())

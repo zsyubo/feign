@@ -46,7 +46,7 @@ public class LBClientTest {
     Map<String, Collection<String>> headers = new LinkedHashMap<String, Collection<String>>();
     // create a Request for recreating another Request by toRequest()
     Request requestOrigin =
-        Request.create(method, uri.toASCIIString(), headers, null, Charset.forName("utf-8"));
+        Request.create(method, uri.toASCIIString(), headers, null, Charset.forName("utf-8"), null);
     RibbonRequest ribbonRequest = new RibbonRequest(null, requestOrigin, uri);
 
     // use toRequest() recreate a Request

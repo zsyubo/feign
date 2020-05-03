@@ -218,12 +218,6 @@ public final class ApacheHttpClient implements Client {
         return entity.getContent();
       }
 
-      @SuppressWarnings("deprecation")
-      @Override
-      public Reader asReader() throws IOException {
-        return new InputStreamReader(asInputStream(), UTF_8);
-      }
-
       @Override
       public Reader asReader(Charset charset) throws IOException {
         Util.checkNotNull(charset, "charset should not be null");

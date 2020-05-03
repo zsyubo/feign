@@ -34,42 +34,6 @@ public final class Request {
   }
 
   /**
-   * No parameters can be null except {@code body} and {@code charset}. All parameters must be
-   * effectively immutable, via safe copies, not mutating or otherwise.
-   *
-   * @deprecated {@link #create(HttpMethod, String, Map, byte[], Charset)}
-   */
-  @Deprecated
-  public static Request create(String method,
-                               String url,
-                               Map<String, Collection<String>> headers,
-                               byte[] body,
-                               Charset charset) {
-    checkNotNull(method, "httpMethod of %s", method);
-    final HttpMethod httpMethod = HttpMethod.valueOf(method.toUpperCase());
-    return create(httpMethod, url, headers, body, charset, null);
-  }
-
-  /**
-   * Builds a Request. All parameters must be effectively immutable, via safe copies.
-   *
-   * @param httpMethod for the request.
-   * @param url for the request.
-   * @param headers to include.
-   * @param body of the request, can be {@literal null}
-   * @param charset of the request, can be {@literal null}
-   * @return a Request
-   */
-  @Deprecated
-  public static Request create(HttpMethod httpMethod,
-                               String url,
-                               Map<String, Collection<String>> headers,
-                               byte[] body,
-                               Charset charset) {
-    return create(httpMethod, url, headers, Body.create(body, charset), null);
-  }
-
-  /**
    * Builds a Request. All parameters must be effectively immutable, via safe copies.
    *
    * @param httpMethod for the request.
@@ -130,17 +94,6 @@ public final class Request {
     this.headers = checkNotNull(headers, "headers of %s %s", method, url);
     this.body = body;
     this.requestTemplate = requestTemplate;
-  }
-
-  /**
-   * Http Method for this request.
-   *
-   * @return the HttpMethod string
-   * @deprecated @see {@link #httpMethod()}
-   */
-  @Deprecated
-  public String method() {
-    return httpMethod.name();
   }
 
   /**
@@ -236,22 +189,6 @@ public final class Request {
     private final boolean followRedirects;
 
     /**
-     * Creates a new Options instance.
-     *
-     * @param connectTimeoutMillis connection timeout in milliseconds.
-     * @param readTimeoutMillis read timeout in milliseconds.
-     * @param followRedirects if the request should follow 3xx redirections.
-     *
-     * @deprecated please use {@link #Options(long, TimeUnit, long, TimeUnit, boolean)}
-     */
-    @Deprecated
-    public Options(int connectTimeoutMillis, int readTimeoutMillis, boolean followRedirects) {
-      this(connectTimeoutMillis, TimeUnit.MILLISECONDS,
-          readTimeoutMillis, TimeUnit.MILLISECONDS,
-          followRedirects);
-    }
-
-    /**
      * Creates a new Options Instance.
      *
      * @param connectTimeout value.
@@ -269,19 +206,6 @@ public final class Request {
       this.readTimeout = readTimeout;
       this.readTimeoutUnit = readTimeoutUnit;
       this.followRedirects = followRedirects;
-    }
-
-    /**
-     * Creates a new Options instance that follows redirects by default.
-     *
-     * @param connectTimeoutMillis connection timeout in milliseconds.
-     * @param readTimeoutMillis read timeout in milliseconds.
-     *
-     * @deprecated please use {@link #Options(long, TimeUnit, long, TimeUnit, boolean)}
-     */
-    @Deprecated
-    public Options(int connectTimeoutMillis, int readTimeoutMillis) {
-      this(connectTimeoutMillis, readTimeoutMillis, true);
     }
 
     /**
@@ -429,21 +353,6 @@ public final class Request {
 
     public static Body create(byte[] data, Charset charset) {
       return new Body(data, charset);
-    }
-
-    /**
-     * Creates a new Request Body with charset encoded data.
-     *
-     * @param data to be encoded.
-     * @param charset to encode the data with. if {@literal null}, then data will be considered
-     *        binary and will not be encoded.
-     *
-     * @return a new Request.Body instance with the encoded data.
-     * @deprecated please use {@link Request.Body#create(byte[], Charset)}
-     */
-    @Deprecated
-    public static Body encoded(byte[] data, Charset charset) {
-      return create(data, charset);
     }
 
     public static Body empty() {

@@ -97,7 +97,8 @@ public class JacksonCodecTest {
     Response response = Response.builder()
         .status(200)
         .reason("OK")
-        .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8))
+        .request(
+            Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8, null))
         .headers(Collections.emptyMap())
         .body(zonesJson, UTF_8)
         .build();
@@ -110,7 +111,8 @@ public class JacksonCodecTest {
     Response response = Response.builder()
         .status(204)
         .reason("OK")
-        .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8))
+        .request(
+            Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8, null))
         .headers(Collections.emptyMap())
         .build();
     assertNull(new JacksonDecoder().decode(response, String.class));
@@ -121,7 +123,8 @@ public class JacksonCodecTest {
     Response response = Response.builder()
         .status(204)
         .reason("OK")
-        .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8))
+        .request(
+            Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8, null))
         .headers(Collections.emptyMap())
         .body(new byte[0])
         .build();
@@ -141,7 +144,8 @@ public class JacksonCodecTest {
     Response response = Response.builder()
         .status(200)
         .reason("OK")
-        .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8))
+        .request(
+            Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8, null))
         .headers(Collections.emptyMap())
         .body(zonesJson, UTF_8)
         .build();
@@ -178,7 +182,8 @@ public class JacksonCodecTest {
     Response response = Response.builder()
         .status(200)
         .reason("OK")
-        .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8))
+        .request(
+            Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8, null))
         .headers(Collections.emptyMap())
         .body(zonesJson, UTF_8)
         .build();
@@ -201,7 +206,8 @@ public class JacksonCodecTest {
     Response response = Response.builder()
         .status(204)
         .reason("OK")
-        .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8))
+        .request(
+            Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8, null))
         .headers(Collections.emptyMap())
         .build();
     assertNull(JacksonIteratorDecoder.create().decode(response, Iterator.class));
@@ -212,7 +218,8 @@ public class JacksonCodecTest {
     Response response = Response.builder()
         .status(204)
         .reason("OK")
-        .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8))
+        .request(
+            Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8, null))
         .headers(Collections.emptyMap())
         .body(new byte[0])
         .build();
@@ -284,7 +291,8 @@ public class JacksonCodecTest {
     Response response = Response.builder()
         .status(404)
         .reason("NOT FOUND")
-        .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8))
+        .request(
+            Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8, null))
         .headers(Collections.emptyMap())
         .build();
     assertThat((byte[]) new JacksonDecoder().decode(response, byte[].class)).isNull();
@@ -296,7 +304,8 @@ public class JacksonCodecTest {
     Response response = Response.builder()
         .status(404)
         .reason("NOT FOUND")
-        .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8))
+        .request(
+            Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8, null))
         .headers(Collections.emptyMap())
         .build();
     assertThat((byte[]) JacksonIteratorDecoder.create().decode(response, byte[].class)).isNull();

@@ -47,7 +47,8 @@ public class DefaultErrorDecoderTest {
     Response response = Response.builder()
         .status(500)
         .reason("Internal server error")
-        .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8))
+        .request(
+            Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8, null))
         .headers(headers)
         .build();
 
@@ -59,7 +60,8 @@ public class DefaultErrorDecoderTest {
     Response response = Response.builder()
         .status(500)
         .reason("Internal server error")
-        .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8))
+        .request(
+            Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8, null))
         .headers(headers)
         .body("hello world", UTF_8)
         .build();
@@ -80,7 +82,8 @@ public class DefaultErrorDecoderTest {
     Response response = Response.builder()
         .status(500)
         .reason("Internal server error")
-        .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8))
+        .request(
+            Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8, null))
         .headers(headers)
         .body(actualBody, UTF_8)
         .build();
@@ -110,7 +113,8 @@ public class DefaultErrorDecoderTest {
     Response response = Response.builder()
         .status(400)
         .reason("Bad request")
-        .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8))
+        .request(
+            Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8, null))
         .headers(headers)
         .build();
 
@@ -129,7 +133,8 @@ public class DefaultErrorDecoderTest {
     Response response = Response.builder()
         .status(503)
         .reason("Service Unavailable")
-        .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8))
+        .request(
+            Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8, null))
         .headers(headers)
         .build();
 

@@ -53,7 +53,7 @@ public class FeignExceptionTest {
     FeignException exception =
         FeignException.errorExecuting(request, new IOException("connection timeout"));
     assertThat(exception.responseBody()).isEmpty();
-    assertThat(exception.content()).isNullOrEmpty();
+    assertThat(exception.contentUTF8()).isNullOrEmpty();
     assertThat(exception.hasRequest()).isTrue();
     assertThat(exception.request()).isNotNull();
   }

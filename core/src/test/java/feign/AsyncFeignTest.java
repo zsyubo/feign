@@ -562,7 +562,8 @@ public class AsyncFeignTest {
     Map<String, Collection<String>> headers = new LinkedHashMap<String, Collection<String>>();
     headers.put("Location", Arrays.asList("http://bar.com"));
     final Response response = Response.builder().status(302).reason("Found").headers(headers)
-        .request(Request.create(HttpMethod.GET, "/", Collections.emptyMap(), null, Util.UTF_8))
+        .request(
+            Request.create(HttpMethod.GET, "/", Collections.emptyMap(), null, Util.UTF_8, null))
         .body(new byte[0]).build();
 
     ExecutorService execs = Executors.newSingleThreadExecutor();
@@ -737,7 +738,7 @@ public class AsyncFeignTest {
       public Response map(Response response, Type type) {
         try {
           return response.toBuilder()
-              .body(Util.toString(response.body().asReader()).toUpperCase().getBytes())
+              .body(Util.toString(response.body().asReader(Util.UTF_8)).toUpperCase().getBytes())
               .build();
         } catch (IOException e) {
           throw new RuntimeException(e);
@@ -749,7 +750,8 @@ public class AsyncFeignTest {
   @SuppressWarnings("deprecation")
   private Response responseWithText(String text) {
     return Response.builder().body(text, Util.UTF_8).status(200)
-        .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8))
+        .request(
+            Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8, null))
         .headers(new HashMap<>()).build();
   }
 
@@ -907,7 +909,7 @@ public class AsyncFeignTest {
                                                     @QueryMap Map<String, Object> queryMap);
 
     @RequestLine("GET /?trim={trim}")
-    CompletableFuture<Void> encodedQueryParam(@Param(value = "trim", encoded = true) String trim);
+    CompletableFuture<Void> encodedQueryParam(@Param(value = "trim") String trim);
 
     @RequestLine("GET /")
     CompletableFuture<Void> queryMapPojo(@QueryMap CustomPojo object);

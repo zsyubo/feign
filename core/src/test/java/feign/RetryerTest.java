@@ -29,7 +29,7 @@ public class RetryerTest {
   public final ExpectedException thrown = ExpectedException.none();
 
   private final static Request REQUEST = Request
-      .create(Request.HttpMethod.GET, "/", Collections.emptyMap(), null, Util.UTF_8);
+      .create(Request.HttpMethod.GET, "/", Collections.emptyMap(), null, Util.UTF_8, null);
 
   @Test
   public void only5TriesAllowedAndExponentialBackoff() throws Exception {

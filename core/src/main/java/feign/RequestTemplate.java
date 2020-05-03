@@ -131,33 +131,6 @@ public final class RequestTemplate implements Serializable {
   }
 
   /**
-   * Create a Request Template from an existing Request Template.
-   *
-   * @param toCopy template.
-   * @deprecated replaced by {@link RequestTemplate#from(RequestTemplate)}
-   */
-  @Deprecated
-  public RequestTemplate(RequestTemplate toCopy) {
-    checkNotNull(toCopy, "toCopy");
-    this.target = toCopy.target;
-    this.fragment = toCopy.fragment;
-    this.method = toCopy.method;
-    this.queries.putAll(toCopy.queries);
-    this.headers.putAll(toCopy.headers);
-    this.charset = toCopy.charset;
-    this.body = toCopy.body;
-    this.decodeSlash = toCopy.decodeSlash;
-    this.collectionFormat =
-        (toCopy.collectionFormat != null) ? toCopy.collectionFormat : CollectionFormat.EXPLODED;
-    this.uriTemplate = toCopy.uriTemplate;
-    this.bodyTemplate = toCopy.bodyTemplate;
-    this.resolved = false;
-    this.methodMetadata = toCopy.methodMetadata;
-    this.target = toCopy.target;
-    this.feignTarget = toCopy.feignTarget;
-  }
-
-  /**
    * Resolve all expressions using the variable value substitutions provided. Variable values will
    * be pct-encoded, if they are not already.
    *
@@ -251,22 +224,6 @@ public final class RequestTemplate implements Serializable {
   }
 
   /**
-   * Resolves all expressions, using the variables provided. Values not present in the {@code
-   * alreadyEncoded} map are pct-encoded.
-   *
-   * @param unencoded variable values to substitute.
-   * @param alreadyEncoded variable names.
-   * @return a resolved Request Template
-   * @deprecated use {@link RequestTemplate#resolve(Map)}. Values already encoded are recognized as
-   *             such and skipped.
-   */
-  @SuppressWarnings("unused")
-  @Deprecated
-  RequestTemplate resolve(Map<String, ?> unencoded, Map<String, Boolean> alreadyEncoded) {
-    return this.resolve(unencoded);
-  }
-
-  /**
    * Creates a {@link Request} from this template. The template must be resolved before calling this
    * method, or an {@link IllegalStateException} will be thrown.
    *
@@ -278,24 +235,6 @@ public final class RequestTemplate implements Serializable {
       throw new IllegalStateException("template has not been resolved.");
     }
     return Request.create(this.method, this.url(), this.headers(), this.body, this);
-  }
-
-  /**
-   * Set the Http Method.
-   *
-   * @param method to use.
-   * @return a RequestTemplate for chaining.
-   * @deprecated see {@link RequestTemplate#method(HttpMethod)}
-   */
-  @Deprecated
-  public RequestTemplate method(String method) {
-    checkNotNull(method, "method");
-    try {
-      this.method = HttpMethod.valueOf(method);
-    } catch (IllegalArgumentException iae) {
-      throw new IllegalArgumentException("Invalid HTTP Method: " + method);
-    }
-    return this;
   }
 
   /**
@@ -369,50 +308,6 @@ public final class RequestTemplate implements Serializable {
   @SuppressWarnings("unused")
   public CollectionFormat collectionFormat() {
     return collectionFormat;
-  }
-
-  /**
-   * Append the value to the template.
-   * <p>
-   * This method is poorly named and is used primarily to store the relative uri for the request. It
-   * has been replaced by {@link RequestTemplate#uri(String)} and will be removed in a future
-   * release.
-   * </p>
-   *
-   * @param value to append.
-   * @return a RequestTemplate for chaining.
-   * @deprecated see {@link RequestTemplate#uri(String, boolean)}
-   */
-  @Deprecated
-  public RequestTemplate append(CharSequence value) {
-    /* proxy to url */
-    if (this.uriTemplate != null) {
-      return this.uri(value.toString(), true);
-    }
-    return this.uri(value.toString());
-  }
-
-  /**
-   * Insert the value at the specified point in the template uri.
-   * <p>
-   * This method is poorly named has undocumented behavior. When the value contains a fully
-   * qualified http request url, the value is always inserted at the beginning of the uri.
-   * </p>
-   * <p>
-   * Due to this, use of this method is not recommended and remains for backward compatibility. It
-   * has been replaced by {@link RequestTemplate#target(String)} and will be removed in a future
-   * release.
-   * </p>
-   *
-   * @param pos in the uri to place the value.
-   * @param value to insert.
-   * @return a RequestTemplate for chaining.
-   * @deprecated see {@link RequestTemplate#target(String)}
-   */
-  @SuppressWarnings("unused")
-  @Deprecated
-  public RequestTemplate insert(int pos, CharSequence value) {
-    return target(value.toString());
   }
 
   /**
@@ -848,10 +743,8 @@ public final class RequestTemplate implements Serializable {
    *
    * @param body to send.
    * @return a RequestTemplate for chaining.
-   * @deprecated use {@link #body(byte[], Charset)} instead.
    */
-  @Deprecated
-  public RequestTemplate body(Request.Body body) {
+  private RequestTemplate body(Request.Body body) {
     this.body = body;
 
     /* body template must be cleared to prevent double processing */
@@ -886,18 +779,6 @@ public final class RequestTemplate implements Serializable {
   public byte[] body() {
     return body.asBytes();
   }
-
-  /**
-   * The Request.Body internal object.
-   *
-   * @return the internal Request.Body.
-   * @deprecated this abstraction is leaky and will be removed in later releases.
-   */
-  @Deprecated
-  public Request.Body requestBody() {
-    return this.body;
-  }
-
 
   /**
    * Specify the Body Template to use. Can contain literals and expressions.

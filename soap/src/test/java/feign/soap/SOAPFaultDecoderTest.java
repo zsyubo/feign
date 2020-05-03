@@ -46,7 +46,8 @@ public class SOAPFaultDecoderTest {
     Response response = Response.builder()
         .status(200)
         .reason("OK")
-        .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8))
+        .request(
+            Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8, null))
         .headers(Collections.emptyMap())
         .body(getResourceBytes("/samples/SOAP_1_2_FAULT.xml"))
         .build();
@@ -61,7 +62,8 @@ public class SOAPFaultDecoderTest {
     Response response = Response.builder()
         .status(400)
         .reason("BAD REQUEST")
-        .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8))
+        .request(
+            Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8, null))
         .headers(Collections.emptyMap())
         .body(getResourceBytes("/samples/SOAP_1_1_FAULT.xml"))
         .build();
@@ -77,7 +79,8 @@ public class SOAPFaultDecoderTest {
     Response response = Response.builder()
         .status(503)
         .reason("Service Unavailable")
-        .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8))
+        .request(
+            Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8, null))
         .headers(Collections.emptyMap())
         .body("Service Unavailable", UTF_8)
         .build();
@@ -103,7 +106,8 @@ public class SOAPFaultDecoderTest {
     Response response = Response.builder()
         .status(500)
         .reason("Internal Server Error")
-        .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8))
+        .request(
+            Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8, null))
         .headers(Collections.emptyMap())
         .body(responseBody, UTF_8)
         .build();

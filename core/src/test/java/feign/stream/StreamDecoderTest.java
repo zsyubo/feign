@@ -85,7 +85,8 @@ public class StreamDecoderTest {
         .status(200)
         .reason("OK")
         .headers(Collections.emptyMap())
-        .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8))
+        .request(
+            Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8, null))
         .body("", UTF_8)
         .build();
 

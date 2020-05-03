@@ -33,7 +33,8 @@ public class ResponseTest {
     Response response = Response.builder()
         .status(200)
         .headers(Collections.<String, Collection<String>>emptyMap())
-        .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8))
+        .request(
+            Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8, null))
         .body(new byte[0])
         .build();
 
@@ -49,7 +50,8 @@ public class ResponseTest {
     Response response = Response.builder()
         .status(200)
         .headers(headersMap)
-        .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8))
+        .request(
+            Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8, null))
         .body(new byte[0])
         .build();
     assertThat(response.headers().get("content-type")).isEqualTo(valueList);
@@ -65,7 +67,8 @@ public class ResponseTest {
     Response response = Response.builder()
         .status(200)
         .headers(headersMap)
-        .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8))
+        .request(
+            Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8, null))
         .body(new byte[0])
         .build();
 
@@ -78,7 +81,8 @@ public class ResponseTest {
   public void headersAreOptional() {
     Response response = Response.builder()
         .status(200)
-        .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8))
+        .request(
+            Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8, null))
         .body(new byte[0])
         .build();
     assertThat(response.headers()).isNotNull().isEmpty();
@@ -88,7 +92,8 @@ public class ResponseTest {
   public void support1xxStatusCodes() {
     Response response = Response.builder()
         .status(103)
-        .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8))
+        .request(
+            Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8, null))
         .body((Response.Body) null)
         .build();
 
@@ -100,7 +105,8 @@ public class ResponseTest {
     Lists.list(600, 50, 35600).forEach(statusCode -> {
       Response response = Response.builder()
           .status(statusCode)
-          .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8))
+          .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8,
+              null))
           .body((Response.Body) null)
           .build();
 

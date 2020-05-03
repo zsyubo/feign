@@ -82,14 +82,6 @@ public abstract class Feign {
   }
 
   /**
-   * @deprecated use {@link #configKey(Class, Method)} instead.
-   */
-  @Deprecated
-  public static String configKey(Method method) {
-    return configKey(method.getDeclaringClass(), method);
-  }
-
-  /**
    * Returns a new instance of an HTTP API, defined by annotations in the {@link Feign Contract},
    * for the specified {@code target}. You should cache this result.
    */

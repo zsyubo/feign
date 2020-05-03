@@ -55,11 +55,6 @@ public final class MeteredBody implements Body {
     return input;
   }
 
-  @Override
-  public Reader asReader() throws IOException {
-    return new InputStreamReader(asInputStream(), UTF_8);
-  }
-
   public long count() {
     return count.get();
   }

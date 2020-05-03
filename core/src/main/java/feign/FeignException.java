@@ -104,17 +104,6 @@ public class FeignException extends RuntimeException {
   }
 
   /**
-   * The Response Body, if present.
-   *
-   * @return the body of the response.
-   * @deprecated use {@link #responseBody()} instead.
-   */
-  @Deprecated
-  public byte[] content() {
-    return this.responseBody;
-  }
-
-  /**
    * The Response body.
    *
    * @return an Optional wrapping the response body.

@@ -128,7 +128,7 @@ public final class LBClient extends
       headers.putAll(request.headers());
       headers.put(Util.CONTENT_LENGTH, Collections.singletonList(String.valueOf(bodyLength)));
       return Request.create(request.httpMethod(), getUri().toASCIIString(), headers, body,
-          request.charset());
+          request.charset(), request.requestTemplate());
     }
 
     Client client() {

@@ -45,7 +45,8 @@ public class JacksonJaxbCodecTest {
     Response response = Response.builder()
         .status(200)
         .reason("OK")
-        .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8))
+        .request(
+            Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8, null))
         .headers(Collections.emptyMap())
         .body("{\"value\":\"Test\"}", UTF_8)
         .build();
@@ -63,7 +64,8 @@ public class JacksonJaxbCodecTest {
     Response response = Response.builder()
         .status(404)
         .reason("NOT FOUND")
-        .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8))
+        .request(
+            Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8, null))
         .headers(Collections.emptyMap())
         .build();
     assertThat((byte[]) new JacksonJaxbJsonDecoder().decode(response, byte[].class)).isNull();

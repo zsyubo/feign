@@ -413,12 +413,6 @@ public class FeignBuilderTest {
                     return original.body().asInputStream();
                   }
 
-                  @SuppressWarnings("deprecation")
-                  @Override
-                  public Reader asReader() throws IOException {
-                    return original.body().asReader(Util.UTF_8);
-                  }
-
                   @Override
                   public Reader asReader(Charset charset) throws IOException {
                     return original.body().asReader(charset);

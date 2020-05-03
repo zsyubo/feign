@@ -129,24 +129,6 @@ public final class RecordedRequestAssert
     return this;
   }
 
-  /**
-   * @deprecated use {@link #hasHeaders(MapEntry...)}
-   */
-  @Deprecated
-  public RecordedRequestAssert hasHeaders(String... headerLines) {
-    isNotNull();
-    Headers.Builder builder = new Headers.Builder();
-    for (String next : headerLines) {
-      builder.add(next);
-    }
-    List<MapEntry> expected = new ArrayList<MapEntry>();
-    for (Map.Entry<String, List<String>> next : builder.build().toMultimap().entrySet()) {
-      expected.add(entry(next.getKey(), next.getValue()));
-    }
-    hasHeaders(expected.toArray(new MapEntry[expected.size()]));
-    return this;
-  }
-
   public RecordedRequestAssert hasHeaders(MapEntry... expected) {
     isNotNull();
     maps.assertContains(info, actual.getHeaders().toMultimap(), expected);

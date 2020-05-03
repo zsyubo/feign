@@ -116,7 +116,8 @@ public class JacksonIteratorTest {
     Response response = Response.builder()
         .status(200)
         .reason("OK")
-        .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8))
+        .request(
+            Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8, null))
         .headers(Collections.emptyMap())
         .body(inputStream, jsonBytes.length)
         .build();
@@ -140,7 +141,8 @@ public class JacksonIteratorTest {
     Response response = Response.builder()
         .status(200)
         .reason("OK")
-        .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8))
+        .request(
+            Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8, null))
         .headers(Collections.emptyMap())
         .body(inputStream, jsonBytes.length)
         .build();
@@ -170,7 +172,8 @@ public class JacksonIteratorTest {
     Response response = Response.builder()
         .status(200)
         .reason("OK")
-        .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8))
+        .request(
+            Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8, null))
         .headers(Collections.emptyMap())
         .body(json, UTF_8)
         .build();
@@ -179,7 +182,7 @@ public class JacksonIteratorTest {
 
   <T> JacksonIterator<T> iterator(Class<T> type, Response response) throws IOException {
     return new JacksonIterator<T>(type.getGenericSuperclass(), new ObjectMapper(),
-        response, response.body().asReader());
+        response, response.body().asReader(Util.UTF_8));
   }
 
 }

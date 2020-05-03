@@ -68,14 +68,6 @@ public interface Contract {
     }
 
     /**
-     * @deprecated use {@link #parseAndValidateMetadata(Class, Method)} instead.
-     */
-    @Deprecated
-    public MethodMetadata parseAndValidateMetadata(Method method) {
-      return parseAndValidateMetadata(method.getDeclaringClass(), method);
-    }
-
-    /**
      * Called indirectly by {@link #parseAndValidateMetadata(Class)}.
      */
     protected MethodMetadata parseAndValidateMetadata(Class<?> targetType, Method method) {

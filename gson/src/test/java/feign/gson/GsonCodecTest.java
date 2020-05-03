@@ -60,7 +60,8 @@ public class GsonCodecTest {
     Response response = Response.builder()
         .status(200)
         .reason("OK")
-        .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8))
+        .request(
+            Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8, null))
         .headers(Collections.emptyMap())
         .body("{\"foo\": 1}", UTF_8)
         .build();
@@ -119,7 +120,8 @@ public class GsonCodecTest {
         .status(200)
         .reason("OK")
         .headers(Collections.emptyMap())
-        .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8))
+        .request(
+            Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8, null))
         .body(zonesJson, UTF_8)
         .build();
     assertEquals(zones,
@@ -132,7 +134,8 @@ public class GsonCodecTest {
         .status(204)
         .reason("OK")
         .headers(Collections.emptyMap())
-        .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8))
+        .request(
+            Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8, null))
         .build();
     assertNull(new GsonDecoder().decode(response, String.class));
   }
@@ -143,7 +146,8 @@ public class GsonCodecTest {
         .status(204)
         .reason("OK")
         .headers(Collections.emptyMap())
-        .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8))
+        .request(
+            Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8, null))
         .body(new byte[0])
         .build();
     assertNull(new GsonDecoder().decode(response, String.class));
@@ -197,7 +201,8 @@ public class GsonCodecTest {
             .reason("OK")
             .headers(Collections.emptyMap())
             .request(
-                Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8))
+                Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8,
+                    null))
             .body(zonesJson, UTF_8)
             .build();
     assertEquals(zones, decoder.decode(response, new TypeToken<List<Zone>>() {}.getType()));
@@ -233,7 +238,8 @@ public class GsonCodecTest {
         .status(404)
         .reason("NOT FOUND")
         .headers(Collections.emptyMap())
-        .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8))
+        .request(
+            Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8, null))
         .build();
     assertThat((byte[]) new GsonDecoder().decode(response, byte[].class)).isNull();
   }

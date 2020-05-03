@@ -165,25 +165,8 @@ public abstract class Logger {
     final java.util.logging.Logger logger;
 
     /**
-     * @deprecated Use {@link #JavaLogger(String)} or {@link #JavaLogger(Class)} instead.
-     *
-     *             This constructor can be used to create just one logger. Example =
-     *             {@code Logger.JavaLogger().appendToFile("logs/first.log")}
-     *
-     *             If you create multiple loggers for multiple clients and provide different files
-     *             to write log - you'll have unexpected behavior - all clients will write same log
-     *             to each file.
-     *
-     *             That's why this constructor will be removed in future.
-     */
-    @Deprecated
-    public JavaLogger() {
-      logger = java.util.logging.Logger.getLogger(Logger.class.getName());
-    }
-
-    /**
      * Constructor for JavaLogger class
-     * 
+     *
      * @param loggerName a name for the logger. This should be a dot-separated name and should
      *        normally be based on the package name or class name of the subsystem, such as java.net
      *        or javax.swing

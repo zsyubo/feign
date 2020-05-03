@@ -541,7 +541,8 @@ public class FeignUnderAsyncTest {
         .status(302)
         .reason("Found")
         .headers(headers)
-        .request(Request.create(HttpMethod.GET, "/", Collections.emptyMap(), null, Util.UTF_8))
+        .request(
+            Request.create(HttpMethod.GET, "/", Collections.emptyMap(), null, Util.UTF_8, null))
         .body(new byte[0])
         .build();
 
@@ -745,7 +746,8 @@ public class FeignUnderAsyncTest {
     return Response.builder()
         .body(text, Util.UTF_8)
         .status(200)
-        .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8))
+        .request(
+            Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8, null))
         .headers(new HashMap<>())
         .build();
   }

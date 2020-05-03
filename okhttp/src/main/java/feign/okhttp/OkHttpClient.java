@@ -137,15 +137,9 @@ public final class OkHttpClient implements Client {
         return input.byteStream();
       }
 
-      @SuppressWarnings("deprecation")
-      @Override
-      public Reader asReader() throws IOException {
-        return input.charStream();
-      }
-
       @Override
       public Reader asReader(Charset charset) throws IOException {
-        return asReader();
+        return input.charStream();
       }
     };
   }

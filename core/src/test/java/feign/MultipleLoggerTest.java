@@ -30,16 +30,6 @@ public class MultipleLoggerTest {
     return (java.util.logging.Logger) inner.get(logger);
   }
 
-  @SuppressWarnings("deprecation")
-  @Test
-  public void testAppendSeveralFilesToOneJavaLogger() throws Exception {
-    Logger.JavaLogger logger = new Logger.JavaLogger()
-        .appendToFile(tmp.newFile("1.log").getAbsolutePath())
-        .appendToFile(tmp.newFile("2.log").getAbsolutePath());
-    java.util.logging.Logger inner = getInnerLogger(logger);
-    assert (inner.getHandlers().length == 2);
-  }
-
   @Test
   public void testJavaLoggerInstantationWithLoggerName() throws Exception {
     Logger.JavaLogger l1 = new Logger.JavaLogger("First client")

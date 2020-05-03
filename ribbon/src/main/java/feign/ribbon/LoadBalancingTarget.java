@@ -28,12 +28,12 @@ import static java.lang.String.format;
  * Using this will enable dynamic url discovery via ribbon including incrementing server request
  * counts. <br>
  * Ex.
- * 
+ *
  * <pre>
  * MyService api = Feign.builder().target(LoadBalancingTarget.create(MyService.class,
  * "http://myAppProd"))
  * </pre>
- * 
+ *
  * Where {@code myAppProd} is the ribbon loadbalancer name and {@code
  * myAppProd.ribbon.listOfServers} configuration is set.
  *
@@ -46,18 +46,6 @@ public class LoadBalancingTarget<T> implements Target<T> {
   private final String path;
   private final Class<T> type;
   private final AbstractLoadBalancer lb;
-
-  /**
-   * @Deprecated will be removed in Feign 10
-   */
-  @Deprecated
-  protected LoadBalancingTarget(Class<T> type, String scheme, String name) {
-    this.type = checkNotNull(type, "type");
-    this.scheme = checkNotNull(scheme, "scheme");
-    this.name = checkNotNull(name, "name");
-    this.path = "";
-    this.lb = AbstractLoadBalancer.class.cast(getNamedLoadBalancer(name()));
-  }
 
   protected LoadBalancingTarget(Class<T> type, String scheme, String name, String path) {
     this.type = checkNotNull(type, "type");

@@ -37,7 +37,8 @@ public class Slf4jLoggerTest {
       Response.builder()
           .status(200)
           .reason("OK")
-          .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8))
+          .request(Request.create(HttpMethod.GET, "/api", Collections.emptyMap(), null, Util.UTF_8,
+              null))
           .headers(Collections.<String, Collection<String>>emptyMap())
           .body(new byte[0])
           .build();

@@ -90,7 +90,7 @@ public class DefaultErrorDecoderHttpErrorTest {
         .status(httpStatus)
         .reason("anything")
         .request(Request.create(HttpMethod.GET, "http://example.com/api", Collections.emptyMap(),
-            null, Util.UTF_8))
+            null, Util.UTF_8, null))
         .headers(headers)
         .body("response body", Util.UTF_8)
         .build();

@@ -42,12 +42,6 @@ public class RequestKey {
       this.url = url;
     }
 
-    @Deprecated
-    public Builder headers(Map<String, Collection<String>> headers) {
-      this.headers = RequestHeaders.of(headers);
-      return this;
-    }
-
     public Builder headers(RequestHeaders headers) {
       this.headers = headers;
       return this;

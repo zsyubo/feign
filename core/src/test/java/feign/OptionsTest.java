@@ -46,7 +46,7 @@ public class OptionsTest {
     server.enqueue(new MockResponse().setBody("foo").setBodyDelay(3, TimeUnit.SECONDS));
 
     final OptionsInterface api = Feign.builder()
-        .options(new Request.Options(1000, 1000))
+        .options(new Request.Options(1, TimeUnit.SECONDS, 1, TimeUnit.SECONDS, true))
         .target(OptionsInterface.class, server.url("/").toString());
 
     thrown.expect(FeignException.class);
@@ -61,9 +61,11 @@ public class OptionsTest {
     server.enqueue(new MockResponse().setBody("foo").setBodyDelay(3, TimeUnit.SECONDS));
 
     final OptionsInterface api = Feign.builder()
-        .options(new Request.Options(1000, 1000))
+        .options(new Request.Options(1, TimeUnit.SECONDS, 1, TimeUnit.SECONDS, false))
         .target(OptionsInterface.class, server.url("/").toString());
 
-    assertThat(api.get(new Request.Options(1000, 4 * 1000))).isEqualTo("foo");
+    assertThat(api.get(new Request.Options(1, TimeUnit.SECONDS, 4, TimeUnit.SECONDS, true)))
+        .isEqualTo("foo");
   }
+
 }

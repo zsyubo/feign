@@ -221,16 +221,6 @@ public final class Response implements Closeable {
 
     /**
      * It is the responsibility of the caller to close the stream.
-     *
-     * @deprecated favor {@link Body#asReader(Charset)}
-     */
-    @Deprecated
-    default Reader asReader() throws IOException {
-      return asReader(StandardCharsets.UTF_8);
-    }
-
-    /**
-     * It is the responsibility of the caller to close the stream.
      */
     Reader asReader(Charset charset) throws IOException;
   }
@@ -265,12 +255,6 @@ public final class Response implements Closeable {
     @Override
     public InputStream asInputStream() {
       return inputStream;
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public Reader asReader() {
-      return new InputStreamReader(inputStream, UTF_8);
     }
 
     @Override
@@ -330,12 +314,6 @@ public final class Response implements Closeable {
     @Override
     public InputStream asInputStream() throws IOException {
       return new ByteArrayInputStream(data);
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public Reader asReader() throws IOException {
-      return new InputStreamReader(asInputStream(), UTF_8);
     }
 
     @Override
