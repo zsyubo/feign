@@ -43,6 +43,7 @@ final class SynchronousMethodHandler implements MethodHandler {
   private final List<RequestInterceptor> requestInterceptors;
   private final Logger logger;
   private final Logger.Level logLevel;
+  // BuildFormEncodedTemplateFromArgs
   private final RequestTemplate.Factory buildTemplateFromArgs;
   private final Options options;
   private final ExceptionPropagationPolicy propagationPolicy;
@@ -86,11 +87,15 @@ final class SynchronousMethodHandler implements MethodHandler {
 
   @Override
   public Object invoke(Object[] argv) throws Throwable {
+    // argv 就是方法参数
+
     RequestTemplate template = buildTemplateFromArgs.create(argv);
+    // 封装请求参数
     Options options = findOptions(argv);
     Retryer retryer = this.retryer.clone();
     while (true) {
       try {
+        // 执行
         return executeAndDecode(template, options);
       } catch (RetryableException e) {
         try {

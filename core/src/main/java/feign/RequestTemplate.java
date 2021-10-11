@@ -15,6 +15,7 @@ package feign;
 
 import feign.Request.HttpMethod;
 import feign.template.*;
+
 import java.io.Serializable;
 import java.net.URI;
 import java.nio.charset.Charset;
@@ -24,7 +25,9 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import static feign.Util.*;
+
+import static feign.Util.CONTENT_LENGTH;
+import static feign.Util.checkNotNull;
 
 /**
  * Request Builder for an HTTP Target.
@@ -100,6 +103,11 @@ public final class RequestTemplate implements Serializable {
   }
 
   /**
+   * 从现有请求模板创建请求模板。
+   * <p>
+   * s
+   * </p>
+   * <p>
    * Create a Request Template from an existing Request Template.
    *
    * @param requestTemplate to copy from.
