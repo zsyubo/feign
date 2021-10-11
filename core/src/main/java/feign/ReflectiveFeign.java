@@ -13,18 +13,23 @@
  */
 package feign;
 
-import static feign.Util.checkArgument;
-import static feign.Util.checkNotNull;
+import feign.InvocationHandlerFactory.MethodHandler;
+import feign.Param.Expander;
+import feign.Request.Options;
+import feign.codec.Decoder;
+import feign.codec.EncodeException;
+import feign.codec.Encoder;
+import feign.codec.ErrorDecoder;
+import feign.template.UriUtils;
+
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.*;
 import java.util.Map.Entry;
-import feign.InvocationHandlerFactory.MethodHandler;
-import feign.Param.Expander;
-import feign.Request.Options;
-import feign.codec.*;
-import feign.template.UriUtils;
+
+import static feign.Util.checkArgument;
+import static feign.Util.checkNotNull;
 
 public class ReflectiveFeign extends Feign {
 
@@ -40,16 +45,22 @@ public class ReflectiveFeign extends Feign {
   }
 
   /**
+   * 创建到目标的api绑定。当这调用反射时，应该注意缓存结果。
+   * <p>
+   * </p>
+   * <p>
    * creates an api binding to the {@code target}. As this invokes reflection, care should be taken
    * to cache the result.
    */
   @SuppressWarnings("unchecked")
   @Override
   public <T> T newInstance(Target<T> target) {
+
     Map<String, MethodHandler> nameToHandler = targetToHandlersByName.apply(target);
+    // 动态代理进行方法调用的具体实现了
     Map<Method, MethodHandler> methodToHandler = new LinkedHashMap<Method, MethodHandler>();
     List<DefaultMethodHandler> defaultMethodHandlers = new LinkedList<DefaultMethodHandler>();
-
+    // 动态代理
     for (Method method : target.type().getMethods()) {
       if (method.getDeclaringClass() == Object.class) {
         continue;
@@ -58,12 +69,13 @@ public class ReflectiveFeign extends Feign {
         defaultMethodHandlers.add(handler);
         methodToHandler.put(method, handler);
       } else {
+        // 普通方法进这个
         methodToHandler.put(method, nameToHandler.get(Feign.configKey(target.type(), method)));
       }
     }
     InvocationHandler handler = factory.create(target, methodToHandler);
     T proxy = (T) Proxy.newProxyInstance(target.type().getClassLoader(),
-        new Class<?>[] {target.type()}, handler);
+            new Class<?>[]{target.type()}, handler);
 
     for (DefaultMethodHandler defaultMethodHandler : defaultMethodHandlers) {
       defaultMethodHandler.bindTo(proxy);
@@ -71,6 +83,9 @@ public class ReflectiveFeign extends Feign {
     return proxy;
   }
 
+  /**
+   * jdk代理模式
+   */
   static class FeignInvocationHandler implements InvocationHandler {
 
     private final Target target;
@@ -83,10 +98,11 @@ public class ReflectiveFeign extends Feign {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+      // 过滤掉一些默认方法
       if ("equals".equals(method.getName())) {
         try {
           Object otherHandler =
-              args.length > 0 && args[0] != null ? Proxy.getInvocationHandler(args[0]) : null;
+                  args.length > 0 && args[0] != null ? Proxy.getInvocationHandler(args[0]) : null;
           return equals(otherHandler);
         } catch (IllegalArgumentException e) {
           return false;
@@ -154,19 +170,23 @@ public class ReflectiveFeign extends Feign {
         BuildTemplateByResolvingArgs buildTemplate;
         if (!md.formParams().isEmpty() && md.template().bodyTemplate() == null) {
           buildTemplate =
-              new BuildFormEncodedTemplateFromArgs(md, encoder, queryMapEncoder, target);
+                  new BuildFormEncodedTemplateFromArgs(md, encoder, queryMapEncoder, target);
         } else if (md.bodyIndex() != null) {
           buildTemplate = new BuildEncodedTemplateFromArgs(md, encoder, queryMapEncoder, target);
         } else {
+          // 普通进这
           buildTemplate = new BuildTemplateByResolvingArgs(md, queryMapEncoder, target);
         }
+
+        // 这是撒？忽略这个方法？
         if (md.isIgnored()) {
           result.put(md.configKey(), args -> {
             throw new IllegalStateException(md.configKey() + " is not a method handled by feign");
           });
         } else {
+          // 普通进这
           result.put(md.configKey(),
-              factory.create(target, md, buildTemplate, options, decoder, errorDecoder));
+                  factory.create(target, md, buildTemplate, options, decoder, errorDecoder));
         }
       }
       return result;
@@ -208,6 +228,7 @@ public class ReflectiveFeign extends Feign {
 
     @Override
     public RequestTemplate create(Object[] argv) {
+      //
       RequestTemplate mutable = RequestTemplate.from(metadata.template());
       mutable.feignTarget(target);
       if (metadata.urlIndex() != null) {
@@ -240,7 +261,7 @@ public class ReflectiveFeign extends Feign {
 
       if (metadata.headerMapIndex() != null) {
         template =
-            addHeaderMapHeaders((Map<String, Object>) argv[metadata.headerMapIndex()], template);
+                addHeaderMapHeaders((Map<String, Object>) argv[metadata.headerMapIndex()], template);
       }
 
       return template;

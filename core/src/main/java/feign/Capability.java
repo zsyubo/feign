@@ -13,18 +13,23 @@
  */
 package feign;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.Arrays;
-import java.util.List;
 import feign.Logger.Level;
 import feign.Request.Options;
 import feign.codec.Decoder;
 import feign.codec.Encoder;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
+import java.util.List;
+
 /**
+ * 功能将核心feign工件暴露给实现，因此在构建客户端时可以定制部分核心。例如，功能采用客户端，对其进行更改，并将修改后的版本反馈给feign。
+ * <p>
+ * </P>
+ * <p>
  * Capabilities expose core feign artifacts to implementations so parts of core can be customized
  * around the time the client being built.
- *
+ * <p>
  * For instance, capabilities take the {@link Client}, make changes to it and feed the modified
  * version back to feign.
  *
