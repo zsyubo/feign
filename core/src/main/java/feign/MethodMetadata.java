@@ -20,6 +20,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 import feign.Param.Expander;
 
+/**
+ * feign 封装的 方法信息
+ **/
 public final class MethodMetadata implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -32,7 +35,7 @@ public final class MethodMetadata implements Serializable {
   private boolean queryMapEncoded;
   private transient Type bodyType;
   private final RequestTemplate template = new RequestTemplate();
-  private final List<String> formParams = new ArrayList<String>();
+  private final List<String> formParams = new ArrayList<String>();  // 这是 url参数？
   private final Map<Integer, Collection<String>> indexToName =
       new LinkedHashMap<Integer, Collection<String>>();
   private final Map<Integer, Class<? extends Expander>> indexToExpanderClass =
@@ -50,6 +53,8 @@ public final class MethodMetadata implements Serializable {
   }
 
   /**
+   * 用作对此方法的引用。例如，日志记录或反射调度。 <p></p>
+   *
    * Used as a reference to this method. For example, {@link Logger#log(String, String, Object...)
    * logging} or {@link ReflectiveFeign reflective dispatch}.
    *

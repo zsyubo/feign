@@ -100,6 +100,7 @@ public abstract class Feign {
     private final List<RequestInterceptor> requestInterceptors =
         new ArrayList<RequestInterceptor>();
     private Logger.Level logLevel = Logger.Level.NONE;
+    // 这个比较重要    Default extends DeclarativeContract 
     private Contract contract = new Contract.Default();
     private Client client = new Client.Default(null, null);
     private Retryer retryer = new Retryer.Default();
@@ -122,6 +123,11 @@ public abstract class Feign {
       return this;
     }
 
+    /**
+     * spring cloud Open fein的情况下：org.springframework.cloud.openfeign.FeignClientFactoryBean#feign(org.springframework.cloud.openfeign.FeignContext)会调用
+     * @param contract
+     * @return
+     */
     public Builder contract(Contract contract) {
       this.contract = contract;
       return this;
@@ -276,6 +282,7 @@ public abstract class Feign {
           .map(ri -> Capability.enrich(ri, capabilities))
           .collect(Collectors.toList());
       Logger logger = Capability.enrich(this.logger, capabilities);
+      // 这个比较重要，在open feign中是SpringMvcContract，由FeignClientsConfiguration#feignContract注入
       Contract contract = Capability.enrich(this.contract, capabilities);
       Options options = Capability.enrich(this.options, capabilities);
       Encoder encoder = Capability.enrich(this.encoder, capabilities);

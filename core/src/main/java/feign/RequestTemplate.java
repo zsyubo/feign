@@ -15,7 +15,6 @@ package feign;
 
 import feign.Request.HttpMethod;
 import feign.template.*;
-
 import java.io.Serializable;
 import java.net.URI;
 import java.nio.charset.Charset;
@@ -25,7 +24,6 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-
 import static feign.Util.CONTENT_LENGTH;
 import static feign.Util.checkNotNull;
 

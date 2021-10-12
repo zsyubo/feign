@@ -21,13 +21,11 @@ import feign.codec.EncodeException;
 import feign.codec.Encoder;
 import feign.codec.ErrorDecoder;
 import feign.template.UriUtils;
-
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.*;
 import java.util.Map.Entry;
-
 import static feign.Util.checkArgument;
 import static feign.Util.checkNotNull;
 
@@ -75,7 +73,7 @@ public class ReflectiveFeign extends Feign {
     }
     InvocationHandler handler = factory.create(target, methodToHandler);
     T proxy = (T) Proxy.newProxyInstance(target.type().getClassLoader(),
-            new Class<?>[]{target.type()}, handler);
+        new Class<?>[] {target.type()}, handler);
 
     for (DefaultMethodHandler defaultMethodHandler : defaultMethodHandlers) {
       defaultMethodHandler.bindTo(proxy);
@@ -102,7 +100,7 @@ public class ReflectiveFeign extends Feign {
       if ("equals".equals(method.getName())) {
         try {
           Object otherHandler =
-                  args.length > 0 && args[0] != null ? Proxy.getInvocationHandler(args[0]) : null;
+              args.length > 0 && args[0] != null ? Proxy.getInvocationHandler(args[0]) : null;
           return equals(otherHandler);
         } catch (IllegalArgumentException e) {
           return false;
@@ -137,7 +135,7 @@ public class ReflectiveFeign extends Feign {
   }
 
   static final class ParseHandlersByName {
-
+    // SpringMvcContract
     private final Contract contract;
     private final Options options;
     private final Encoder encoder;
@@ -168,10 +166,11 @@ public class ReflectiveFeign extends Feign {
       Map<String, MethodHandler> result = new LinkedHashMap<String, MethodHandler>();
       for (MethodMetadata md : metadata) {
         BuildTemplateByResolvingArgs buildTemplate;
+        // 有普通参数？没body参数？
         if (!md.formParams().isEmpty() && md.template().bodyTemplate() == null) {
           buildTemplate =
-                  new BuildFormEncodedTemplateFromArgs(md, encoder, queryMapEncoder, target);
-        } else if (md.bodyIndex() != null) {
+              new BuildFormEncodedTemplateFromArgs(md, encoder, queryMapEncoder, target);
+        } else if (md.bodyIndex() != null) { // 有body参数？
           buildTemplate = new BuildEncodedTemplateFromArgs(md, encoder, queryMapEncoder, target);
         } else {
           // 普通进这
@@ -186,7 +185,7 @@ public class ReflectiveFeign extends Feign {
         } else {
           // 普通进这
           result.put(md.configKey(),
-                  factory.create(target, md, buildTemplate, options, decoder, errorDecoder));
+              factory.create(target, md, buildTemplate, options, decoder, errorDecoder));
         }
       }
       return result;
@@ -261,7 +260,7 @@ public class ReflectiveFeign extends Feign {
 
       if (metadata.headerMapIndex() != null) {
         template =
-                addHeaderMapHeaders((Map<String, Object>) argv[metadata.headerMapIndex()], template);
+            addHeaderMapHeaders((Map<String, Object>) argv[metadata.headerMapIndex()], template);
       }
 
       return template;

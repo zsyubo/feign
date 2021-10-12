@@ -24,7 +24,6 @@ import java.util.*;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
-
 import static java.lang.String.format;
 
 /**
@@ -102,6 +101,8 @@ public class Util {
   }
 
   /**
+   * 如果expression为false，则抛出对应的异常信息(errorMessageTemplate)
+   * <p></p>
    * Copy of {@code com.google.common.base.Preconditions#checkState}.
    */
   public static void checkState(boolean expression,

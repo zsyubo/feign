@@ -24,6 +24,10 @@ import java.util.regex.Pattern;
 import feign.Request.HttpMethod;
 
 /**
+ * 定义哪些注释和值在接口上有效。
+ * 其实就是解析类信息的工具类
+ * 在spring cloud open feign中实现是SpringMvcContract
+ * <p></p>
  * Defines what annotations and values are valid on interfaces.
  */
 public interface Contract {
@@ -43,22 +47,37 @@ public interface Contract {
      */
     @Override
     public List<MethodMetadata> parseAndValidateMetadata(Class<?> targetType) {
+      // 这里做处理是方式问题复杂化吧
+
+      // 这地方是判断是否用了泛型？  比如FeignClient定义成这样：public interface MallProductService<E> {}，带了泛型
       checkState(targetType.getTypeParameters().length == 0, "Parameterized types unsupported: %s",
           targetType.getSimpleName());
+
+      // targetType.getInterfaces 获得这个对象所实现的所有接口
+
+      // 也就是接口只能实现extends一个
+      //    这样是错误的：public interface MallProductService extends EACObjectIdentifiers, C14NMethodParameterSpec {}
       checkState(targetType.getInterfaces().length <= 1, "Only single inheritance supported: %s",
           targetType.getSimpleName());
+      // 这里是 继承接口的那个接口不能继承其他接口也就是  MallProductService extends C14NMethodParameterSpec ---> C14NMethodParameterSpec extends X1, X2
       if (targetType.getInterfaces().length == 1) {
         checkState(targetType.getInterfaces()[0].getInterfaces().length == 0,
             "Only single-level inheritance supported: %s",
             targetType.getSimpleName());
       }
       final Map<String, MethodMetadata> result = new LinkedHashMap<String, MethodMetadata>();
+      // 获取方法列表
       for (final Method method : targetType.getMethods()) {
+        // 过滤掉不符合的方法
+        // method.getDeclaringClass() 其实就是放在所在类名
+        // method.getModifiers() & Modifier.STATIC) != 0 判断是否为静态方法
+        // Util.isDefault(method)  java8 default方法
         if (method.getDeclaringClass() == Object.class ||
             (method.getModifiers() & Modifier.STATIC) != 0 ||
             Util.isDefault(method)) {
           continue;
         }
+        // 装换为MethodMetadata
         final MethodMetadata metadata = parseAndValidateMetadata(targetType, method);
         checkState(!result.containsKey(metadata.configKey()), "Overrides unsupported: %s",
             metadata.configKey());
@@ -76,6 +95,8 @@ public interface Contract {
     }
 
     /**
+     * 由parseAndValidateMetadata(类)间接调用。
+     * <p></p>
      * Called indirectly by {@link #parseAndValidateMetadata(Class)}.
      */
     protected MethodMetadata parseAndValidateMetadata(Class<?> targetType, Method method) {
@@ -85,13 +106,15 @@ public interface Contract {
       data.returnType(Types.resolve(targetType, targetType, method.getGenericReturnType()));
       data.configKey(Feign.configKey(targetType, method));
 
+      // 这里是处理类上的注解
       if (targetType.getInterfaces().length == 1) {
         processAnnotationOnClass(data, targetType.getInterfaces()[0]);
       }
       processAnnotationOnClass(data, targetType);
 
-
+      // 这里处理方法上的注解
       for (final Annotation methodAnnotation : method.getAnnotations()) {
+        // spring mvc的注解在这地方去解析的
         processAnnotationOnMethod(data, methodAnnotation, method);
       }
       if (data.isIgnored()) {
@@ -182,6 +205,8 @@ public interface Contract {
     }
 
     /**
+     * 由parseAndValidateMetadata调用两次，首先在声明类上，然后在目标类型上(除非它们相同)。
+     * <p></p>
      * Called by parseAndValidateMetadata twice, first on the declaring class, then on the target
      * type (unless they are the same).
      *
