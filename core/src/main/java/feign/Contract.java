@@ -114,7 +114,7 @@ public interface Contract {
 
       // 这里处理方法上的注解
       for (final Annotation methodAnnotation : method.getAnnotations()) {
-        // spring mvc的注解在这地方去解析的
+        // spring mvc的注解在这地方去解析的，  处理RequestMapping注解
         processAnnotationOnMethod(data, methodAnnotation, method);
       }
       if (data.isIgnored()) {
@@ -125,7 +125,7 @@ public interface Contract {
           data.configKey(), data.warnings());
       final Class<?>[] parameterTypes = method.getParameterTypes();
       final Type[] genericParameterTypes = method.getGenericParameterTypes();
-
+      // 获取参数注解？  第一个数组是参数位置，第二个就是参数位置所对应的注解列表
       final Annotation[][] parameterAnnotations = method.getParameterAnnotations();
       final int count = parameterAnnotations.length;
       for (int i = 0; i < count; i++) {
